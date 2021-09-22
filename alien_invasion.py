@@ -12,9 +12,10 @@ class AlienInvasion:
         #Creat instance of setting and assign it to settings attribute
         self.settings = Setting()
         #Create display window by assigning a suface to self.screen
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height))
-        pygame.display.set_caption("Alien Invasion")
+        #Makes game appear in full screen
+        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
         #Create self.ship attribute by making a ship onject from Ship class
         self.ship = Ship(self)
         #Set background color RGB
@@ -51,7 +52,10 @@ class AlienInvasion:
             self.ship.moving_right = True
         #If the key is the left arrow
         elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True      
+            self.ship.moving_left = True     
+        #If the key is Q
+        elif event.key == pygame.K_q:
+            sys.exit() 
 
     def _check_keyup_events(self, event):
         #Respond to key releases
