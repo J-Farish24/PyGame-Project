@@ -37,21 +37,30 @@ class AlienInvasion:
                 sys.exit()
             #If the player presses a key
             elif event.type == pygame.KEYDOWN:
-                #If the key is the right arrow
-                #Can use elif because each event is connected to only one key
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = True
-                #If the key is the left arrow
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True
+                self._check_keydown_events(event)
             #If the player lefts up on a key
             elif event.type == pygame.KEYUP:
-                #If the key is the right arrow
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False
-                    #If the key is the left arrow
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False
+                self._check_keyup_events(event)
+
+    #Helper method
+    def _check_keydown_events(self, event):
+        #Respond to key presses
+        #If the key is the right arrow
+        #Can use elif because each event is connected to only one key
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        #If the key is the left arrow
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True      
+
+    def _check_keyup_events(self, event):
+        #Respond to key releases
+        #If the key is the right arrow
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        #If the key is the left arrow
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
 
     #Helper method
     def _update_screen(self):
