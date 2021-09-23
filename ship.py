@@ -14,10 +14,10 @@ class Ship:
         #Load the ship image and get its rect
         self.image = pygame.image.load('ship.bmp')
         self.rect = self.image.get_rect()
-        #Store a decimal value for te ship's horizontal position
-        self.x = float(self.rect.x)
         #Start each new ship at the bottom center of the screen
         self.rect.midbottom = self.screen_rect.midbottom
+        #Store a decimal value for the ship's horizontal position
+        self.x = float(self.rect.x)
         #Movement flag
         self.moving_right = False
         self.moving_left = False
