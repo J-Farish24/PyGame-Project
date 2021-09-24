@@ -3,6 +3,7 @@ import sys
 import pygame 
 from settings import Setting
 from ship import Ship
+from bullet import Bullet
 
 #Game Class
 class AlienInvasion:
@@ -16,8 +17,10 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
-        #Create self.ship attribute by making a ship onject from Ship class
+        #Create self.ship attribute by making a ship object from Ship class
         self.ship = Ship(self)
+        #Create the bullets attribute by making bullet object that behaves like a list
+        self.bullets = pygame.sprite.Group()
         #Set background color RGB
         self.bg_color = self.settings.bg_color
 
@@ -27,6 +30,7 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship._update()
+            self.bullets.update() #Update for each sprite in the group
             self._update_screen()
 
     #Helper method       
@@ -56,6 +60,9 @@ class AlienInvasion:
         #If the key is Q
         elif event.key == pygame.K_q:
             sys.exit() 
+        #If the key is the spacebar
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         #Respond to key releases
@@ -65,12 +72,20 @@ class AlienInvasion:
         #If the key is the left arrow
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+    #Helper method
+    def _fire_bullet(self):
+        #Create a new bullet and add it to the bullets group
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
     #Helper method
     def _update_screen(self):
         #Redraw screen during each pass through loop
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        #Draw bullets
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
         #Make the most recently drawn screen visible, erases previous screen
         pygame.display.flip()
 
