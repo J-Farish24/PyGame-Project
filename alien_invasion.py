@@ -30,8 +30,9 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship._update()
-            self.bullets.update() #Update for each sprite in the group
+            self._update_bullets()
             self._update_screen()
+
 
     #Helper method       
     def _check_events(self):
@@ -75,8 +76,18 @@ class AlienInvasion:
     #Helper method
     def _fire_bullet(self):
         #Create a new bullet and add it to the bullets group
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    #Helper method
+    def _update_bullets(self):
+        #Update position of bullets and get rid of old bullets
+        self.bullets.update() #Update for each sprite in the group
+        #Get rid of bullets that have disappeared
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
     #Helper method
     def _update_screen(self):
