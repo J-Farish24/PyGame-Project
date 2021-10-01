@@ -39,9 +39,12 @@ class AlienInvasion:
         #Start main loop for the game
         while True:
             self._check_events()
-            self.ship._update()
-            self._update_bullets()
-            self._update_aliens()
+            #If player has ships left
+            if self.stats.game_active:
+                self.ship._update()
+                self._update_bullets()
+                self._update_aliens()
+            
             self._update_screen()
 
 
@@ -120,6 +123,8 @@ class AlienInvasion:
         #Look for alien-ship collisions
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+        #Look for any aliens hitting the bottom of the screen
+        self._check_aliens_bottom()
 
     #Helper method
     def _update_screen(self):
@@ -185,16 +190,29 @@ class AlienInvasion:
     #Helper Method
     def _ship_hit(self):
         #Respond to the ship being hit by an alien
-        #Decrement ships_left
-        self.stats.ships_left -= 1
-        #Get rid of remaining bullets and aliens
-        self.aliens.empty()
-        self.bullets.empty()
-        #Create a new fleet and center the ship
-        self._create_fleet()
-        self.ship.center_ship()
-        #Pause
-        sleep(0.5)
+        if self.stats.ships_left > 0:
+            #Decrement ships_left
+            self.stats.ships_left -= 1
+            #Get rid of remaining bullets and aliens
+            self.aliens.empty()
+            self.bullets.empty()
+            #Create a new fleet and center the ship
+            self._create_fleet()
+            self.ship.center_ship()
+            #Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+    
+    #Helper Method
+    def _check_aliens_bottom(self):
+        #Check if amy aliens have reached the bottom of the screen 
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                #Treat this the same as the ship getting hit
+                self._ship_hit()
+                break
 
 if __name__ == '__main__':
     #Make a game instance, and run the game
