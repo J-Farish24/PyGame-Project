@@ -143,6 +143,7 @@ class AlienInvasion:
                 #Collisions is a dictionary with lists as the values
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
         #If there are no more aliens
         if not self.aliens:
             #Destory existing bullets and create new fleet
