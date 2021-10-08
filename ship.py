@@ -1,16 +1,17 @@
 import pygame
+from pygame.sprite import Sprite
 #Create ship class
-class Ship:
+class Ship(Sprite):
 
     def __init__(self, ai_game):
         #Gives access to all game resources defined in Alien Invasion
         #Initialize ship and set starting position
+        super().__init__()
         self.screen = ai_game.screen
         #Create ship setting to use in _update()
         self.settings = ai_game.settings
         #Access screen's rect attribute
         self.screen_rect = ai_game.screen.get_rect()
-
         #Load the ship image and get its rect
         self.image = pygame.image.load('ship.bmp')
         self.rect = self.image.get_rect()
