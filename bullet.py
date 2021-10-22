@@ -21,6 +21,7 @@ class Bullet(Sprite):
         #Move the bullet up the screen
         #Update the bullet's decimal position
         self.y -= self.settings.bullet_speed
+        
         #Update the rect position
         self.rect.y = self.y
 

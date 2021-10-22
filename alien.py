@@ -7,12 +7,15 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
+
         #load alien image and set ret attributes
         self.image = pygame.image.load('alien.bmp')
         self.rect = self.image.get_rect()
-        #Start each new a;oem mear the top left of the screen
+
+        #Start each new alien near the top left of the screen
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
+        
         #Store the alien's exact horizontal position
         self.x = float(self.rect.x)
     
